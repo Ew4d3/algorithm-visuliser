@@ -21,7 +21,7 @@
                 ["Bogo Sort",      "O(n)",       "O(n·n!)",     "O(∞)",        "O(1)",     "No"],
                 ["Rot Sort",       "O(1 year)",  "O(1 year)",   "O(1 year)",   "O(1)",     "Yes"]
             ],
-            
+
             note: "Bubble sort is only O(n) best case if it stops early when a pass makes no swaps. " +
                   "Quick sort's O(n²) worst case happens with bad pivots, such as a sorted array with a last-element pivot. " +
                   "Stable means equal values keep their original order."
@@ -97,9 +97,9 @@
         });
     });
 
-    // ===================================================================
+    
     // 2. GROWTH CURVES
-    // ===================================================================
+
     // f(n)     = number of operations (used to draw the line chart)
     // log10(n) = log10 of the number of operations (used by the bar chart,
     //            because 2^n and n! overflow ordinary numbers)
