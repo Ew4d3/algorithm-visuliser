@@ -3,10 +3,11 @@
 
     const $ = id => document.getElementById(id);
 
-    // ===================================================================
     // 1. CHEAT SHEET TABLES
-    // ===================================================================
+
+
     const TABLES = {
+
         sorting: {
             cols: ["Algorithm", "Best", "Average", "Worst", "Space", "Stable"],
             plain: [5],
@@ -20,6 +21,7 @@
                 ["Bogo Sort",      "O(n)",       "O(n·n!)",     "O(∞)",        "O(1)",     "No"],
                 ["Rot Sort",       "O(1 year)",  "O(1 year)",   "O(1 year)",   "O(1)",     "Yes"]
             ],
+            
             note: "Bubble sort is only O(n) best case if it stops early when a pass makes no swaps. " +
                   "Quick sort's O(n²) worst case happens with bad pivots, such as a sorted array with a last-element pivot. " +
                   "Stable means equal values keep their original order."
