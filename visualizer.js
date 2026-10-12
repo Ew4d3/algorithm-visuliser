@@ -1,4 +1,4 @@
-export async function executeOperation(   //for creating actual bars etc
+export async function executeOperation(
     operation,
     array,
     arrayContainer,
@@ -7,9 +7,10 @@ export async function executeOperation(   //for creating actual bars etc
     const bars =
         arrayContainer.querySelectorAll(".bar");
 
-    if (operation.type === "compare") {  //orange bars to be compared
+    if (operation.type === "compare") {
 
-        const [first, second] = operation.indices;
+        const [first, second] =
+            operation.indices;
 
         bars[first]
             .classList.add("comparing");
@@ -18,7 +19,7 @@ export async function executeOperation(   //for creating actual bars etc
             .classList.add("comparing");
 
         await sleep(
-            Number(speedSlider.value)  //stops + waits dep on speed val + continues
+            Number(speedSlider.value)
         );
 
         bars[first]
@@ -28,7 +29,7 @@ export async function executeOperation(   //for creating actual bars etc
             .classList.remove("comparing");
     }
 
-    if (operation.type === "swap") {  //swapping of orange bars
+    if (operation.type === "swap") {
 
         const [first, second] =
             operation.indices;
@@ -48,7 +49,38 @@ export async function executeOperation(   //for creating actual bars etc
             `${array[second]}px`;
 
         await sleep(
-            Number(speedSlider.value)  //stops + waits dep on speed val + continues
+            Number(speedSlider.value)
+        );
+    }
+
+    if (operation.type === "shift") {
+
+        const { from, to } = operation;
+
+        array[to] = array[from];
+
+        bars[to].style.height =
+            `${array[to]}px`;
+
+        bars[from].style.height =
+            "0px";
+
+        await sleep(
+            Number(speedSlider.value)
+        );
+    }
+
+    if (operation.type === "insert") {
+
+        const { index, value } = operation;
+
+        array[index] = value;
+
+        bars[index].style.height =
+            `${value}px`;
+
+        await sleep(
+            Number(speedSlider.value)
         );
     }
 
@@ -57,18 +89,22 @@ export async function executeOperation(   //for creating actual bars etc
         bars[operation.index]
             .classList.add("sorted");
     }
+
+    if (operation.type === "sortedRange") {
+
+        for (
+            let i = 0;
+            i <= operation.end;
+            i++
+        ) {
+            bars[i]
+                .classList.add("sorted");
+        }
+    }
 }
 
-
-function sleep(ms) {  //stops + waits dep on speed val + continues
-    return new Promise( //promise= something that will happen in future
+function sleep(ms) {
+    return new Promise(
         resolve => setTimeout(resolve, ms)
     );
 }
-
-
-
-
-
-
-

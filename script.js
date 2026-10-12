@@ -7,6 +7,9 @@ import { executeOperation }
 import { selectionSort }
     from "./algorithms/selectionSort.js";
 
+import { insertionSort }
+    from "./algorithms/insertionSort.js";
+
 //buttons + general elements
 const generateButton = document.getElementById("generate-button");
 const sortButton = document.getElementById("sort-button");
@@ -58,6 +61,7 @@ stepButton.addEventListener(
 resetButton.addEventListener(
     "click",
     reset
+
 );
 
 function togglePause() {  //pause alg 
@@ -128,7 +132,7 @@ function generateArray() {  //generates arr of random values and displays as bar
 }
 
  
-function renderArray() {  //essetniually draws array out as bars 
+function renderArray() {  //essentially draws array out as bars 
     arrayContainer.innerHTML = "";
     for (let i = 0; i < array.length; i++) {
         const bar = document.createElement("div");
@@ -160,12 +164,17 @@ async function startSorting() {  //sort
     pauseButton.disabled = false;
 
     stepButton.disabled = false;
-if (algorithmSelect.value === "bubble") {
-    operations = bubbleSort(array);
-} 
-else if (
-    algorithmSelect.value === "selection"
-) 
+
+
+    if (algorithmSelect.value === "bubble") {
+        operations = bubbleSort(array);
+    } else if (algorithmSelect.value === "selection") {
+        operations = selectionSort(array);
+    } else if (algorithmSelect.value === "insertion") {
+        operations = insertionSort(array);
+    }
+
+
 {
     operations = selectionSort(array);
 }
