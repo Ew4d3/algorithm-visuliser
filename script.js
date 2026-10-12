@@ -1,20 +1,14 @@
-import { bubbleSort }   // This is a single-line comment
-    from "./algorithms/bubbleSort.js";
+import { bubbleSort } from "./algorithms/bubbleSort.js";
+import { executeOperation } from "./visualizer.js";
+import { selectionSort } from "./algorithms/selectionSort.js";
+import { insertionSort } from "./algorithms/insertionSort.js";
 
-import { executeOperation }
-    from "./visualizer.js";
-
-import { selectionSort }
-    from "./algorithms/selectionSort.js";
-
-import { insertionSort }
-    from "./algorithms/insertionSort.js";
-
-//buttons + general elements
+// buttons + general elements
 const generateButton = document.getElementById("generate-button");
 const sortButton = document.getElementById("sort-button");
 const arrayContainer = document.getElementById("array-container");
 const speedSlider = document.getElementById("speed");
+const speedValue = document.getElementById("speed-value");
 const pauseButton = document.getElementById("pause-button");
 const stepButton = document.getElementById("step-button");
 const resetButton = document.getElementById("reset-button");
@@ -23,10 +17,9 @@ const swapsDisplay = document.getElementById("swaps");
 const currentOperationDisplay = document.getElementById("current-operation");
 const totalOperationsDisplay = document.getElementById("total-operations");
 const algorithmSelect = document.getElementById("algorithm-select");
+const stepMessage = document.getElementById("step-message");
 
-
-
-//set var values eg sorting = disabling buttons
+// state
 let array = [];
 let isSorting = false;
 let isPaused = false;
@@ -36,55 +29,55 @@ let stepRequested = false;
 let pauseResolver = null;
 let comparisons = 0;
 let swaps = 0;
+let runId = 0;   // identifies the current sort run so reset can cancel it
 
+// listeners
+generateButton.addEventListener("click", generateArray);
+sortButton.addEventListener("click", startSorting);
+pauseButton.addEventListener("click", togglePause);
+stepButton.addEventListener("click", step);
+resetButton.addEventListener("click", reset);
 
-generateButton.addEventListener(  //listeners for presses - on press call func
-    "click",
-    generateArray
-);
+// ---------- speed slider ----------
+function updateSpeedLabel() {
+    const ms = Number(speedSlider.value);
+    speedValue.textContent = ms >= 1000
+        ? `${(ms / 1000).toFixed(1)} s`
+        : `${ms} ms`;
+}
 
-sortButton.addEventListener(
-    "click",
-    startSorting
-);
+speedSlider.addEventListener("input", updateSpeedLabel);
 
-pauseButton.addEventListener(
-    "click",
-    togglePause
-);
+// default slider value (delay in ms) for each algorithm: bigger = slower
+const defaultDelay = {
+    bubble: 500,
+    selection: 500,
+    insertion: 2000
+};
 
-stepButton.addEventListener(
-    "click",
-    step
-);
+function applyDefaultSpeed() {
+    speedSlider.value = defaultDelay[algorithmSelect.value] ?? 300;
+    updateSpeedLabel();
+}
 
-resetButton.addEventListener(
-    "click",
-    reset
+algorithmSelect.addEventListener("change", applyDefaultSpeed);
+applyDefaultSpeed();
 
-);
-
-function togglePause() {  //pause alg 
-  
+// ---------- controls ----------
+function togglePause() {
     isPaused = !isPaused;
     if (isPaused) {
         pauseButton.textContent = "Resume";
-    } 
-    else {
+    } else {
         pauseButton.textContent = "Pause";
         if (pauseResolver) {
             pauseResolver();
             pauseResolver = null;
-
         }
     }
-
-
 }
 
-
-function step() {  //step 1  by one
-
+function step() {
     if (!isPaused) {
         return;
     }
@@ -92,63 +85,69 @@ function step() {  //step 1  by one
     if (pauseResolver) {
         pauseResolver();
         pauseResolver = null;
-
-
     }
 }
 
-
-function reset() {  //resets alg progress + generates new arr
+function reset() {
+    runId++;                 // cancels any sort that is running or paused
+    isSorting = false;       // lets generateArray() run again
     isPaused = false;
     stepRequested = false;
+
+    // release the paused loop so it can see it was cancelled and exit
+    if (pauseResolver) {
+        pauseResolver();
+        pauseResolver = null;
+    }
+
     currentOperationIndex = 0;
     operations = [];
+    comparisons = 0;
+    swaps = 0;
+
+    comparisonsDisplay.textContent = "0";
+    swapsDisplay.textContent = "0";
+    currentOperationDisplay.textContent = "0";
+    totalOperationsDisplay.textContent = "0";
+    stepMessage.textContent = "";
+
     pauseButton.textContent = "Pause";
     pauseButton.disabled = true;
     stepButton.disabled = true;
     generateButton.disabled = false;
     sortButton.disabled = false;
+    algorithmSelect.disabled = false;
+
     generateArray();
-
-
 }
 
-function generateArray() {  //generates arr of random values and displays as bars to be sorted
+// ---------- array ----------
+function generateArray() {
     if (isSorting) {
         return;
-
     }
     array = [];
     for (let i = 0; i < 30; i++) {
-        const value =
-            Math.floor(Math.random() * 300) + 20;
+        const value = Math.floor(Math.random() * 300) + 20;
         array.push(value);
-
     }
-
     renderArray();
-
-
 }
 
- 
-function renderArray() {  //essentially draws array out as bars 
+function renderArray() {
     arrayContainer.innerHTML = "";
     for (let i = 0; i < array.length; i++) {
         const bar = document.createElement("div");
         bar.classList.add("bar");
         bar.style.height = `${array[i]}px`;
         arrayContainer.appendChild(bar);
-
-
     }
 }
 
-
-async function startSorting() {  //sort
+// ---------- sorting ----------
+async function startSorting() {
     if (isSorting) {
         return;
-
     }
     isSorting = true;
     isPaused = false;
@@ -156,16 +155,17 @@ async function startSorting() {  //sort
     currentOperationIndex = 0;
     comparisons = 0;
     swaps = 0;
+    const myRun = ++runId;   // this run's ID
+
     comparisonsDisplay.textContent = "0";
     swapsDisplay.textContent = "0";
     sortButton.disabled = true;
     algorithmSelect.disabled = true;
     generateButton.disabled = true;
     pauseButton.disabled = false;
-
     stepButton.disabled = false;
 
-
+    // pick the algorithm
     if (algorithmSelect.value === "bubble") {
         operations = bubbleSort(array);
     } else if (algorithmSelect.value === "selection") {
@@ -174,13 +174,16 @@ async function startSorting() {  //sort
         operations = insertionSort(array);
     }
 
-
-{
-    operations = selectionSort(array);
-}
     totalOperationsDisplay.textContent = operations.length;
     currentOperationDisplay.textContent = "0";
-    await runAnimation();
+
+    await runAnimation(myRun);
+
+    // if reset happened, it already cleaned up, so don't touch anything
+    if (myRun !== runId) {
+        return;
+    }
+
     isSorting = false;
     isPaused = false;
     pauseButton.textContent = "Pause";
@@ -189,73 +192,51 @@ async function startSorting() {  //sort
     pauseButton.disabled = true;
     stepButton.disabled = true;
     algorithmSelect.disabled = false;
-
-    
+    stepMessage.textContent = "Sorting complete!";
 }
 
-async function runAnimation() {  //animations
-    while (
-        currentOperationIndex < operations.length
-
-    ) 
-    {
-        if (isPaused && !stepRequested
-        ) 
-        {
+async function runAnimation(myRun) {
+    while (myRun === runId && currentOperationIndex < operations.length) {
+        if (isPaused && !stepRequested) {
             await waitForResume();
-
         }
+
+        // reset may have happened while we were paused
+        if (myRun !== runId) {
+            return;
+        }
+
         stepRequested = false;
+
         const operation = operations[currentOperationIndex];
-    
-    if (operation.type === "compare") {
-        comparisons++;
 
+        stepMessage.textContent = operation.message ?? "";
+
+        if (operation.type === "compare") {
+            comparisons++;
+        }
+        if (operation.type === "swap" || operation.type === "shift") {
+            swaps++;
+        }
+
+        await executeOperation(operation, array, arrayContainer, speedSlider);
+
+        // reset may have happened during the animation step
+        if (myRun !== runId) {
+            return;
+        }
+
+        currentOperationIndex++;
+        comparisonsDisplay.textContent = comparisons;
+        swapsDisplay.textContent = swaps;
+        currentOperationDisplay.textContent = currentOperationIndex;
     }
-    
-    if (operation.type === "swap") {
-        swaps++;
-
-    }
-    
-    await executeOperation(
-        operation,
-        array,
-        arrayContainer,
-        speedSlider
-
-    );
-    
-    currentOperationIndex++;
-    comparisonsDisplay.textContent = comparisons;
-    swapsDisplay.textContent = swaps;
-    currentOperationDisplay.textContent = currentOperationIndex;
-
-
-    }
-
-
-
 }
 
-function waitForResume() {  
-    return new Promise(resolve => {  //promise= something that will happen in future
+function waitForResume() {
+    return new Promise(resolve => {
         pauseResolver = resolve;
-
-
-
-    }
-
-);
-
-
+    });
 }
 
-
-
-generateArray();  //calls genfunc to create new arr
-
-
-
-
-
+generateArray();

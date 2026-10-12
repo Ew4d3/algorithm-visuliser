@@ -1,92 +1,104 @@
-<!DOCTYPE html>  <!-- This is a single-line comment -->
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Algorithm Visualiser</title>
 
-
-    <title>Algorithm Visualiser</title>  <!-- title -->
-    <link rel="stylesheet" href="style.css">  <!-- link to css -->
-
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div class="app">
 
-    <h1>Algorithm Visualizer</h1>  <!-- heading -->
+        <header class="header">
+            <div class="title-row">
+                <h1>Algorithm <span class="gradient-text">Visualiser</span></h1>
+                <div class="logo" aria-hidden="true">
+                    <span></span><span></span><span></span><span></span>
+                </div>
+            </div>
+            <p class="subtitle">Watch sorting algorithms work, one step at a time.</p>
+        </header>
 
-    <div id="controls">  <!-- all buttons -->
-        <button id="generate-button">
-            Generate Array
-        </button>
+        <main class="card">
 
-        <select id="algorithm-select">   <!-- dropdown of different algs - will be more added -->
-            <option value="bubble">Bubble Sort</option>
-            <option value="selection">Selection Sort</option>
-            <option value="insertion">Insertion Sort</option>
+            <!-- controls -->
+            <div id="controls">
+                <div class="control-group">
+                    <label class="field-label" for="algorithm-select">Algorithm</label>
+                    <select id="algorithm-select">
+                        <option value="bubble">Bubble Sort</option>
+                        <option value="selection">Selection Sort</option>
+                        <option value="insertion">Insertion Sort</option>
+                    </select>
+                </div>
 
-        </select>
-    
-        <button id="sort-button">
-            Sort
-        </button>
-    
-        <button id="pause-button" disabled>
-            Pause
-        </button>
-    
-        <button id="step-button" disabled>
-            Step
-        </button>
-    
-        <button id="reset-button">
-            Reset
-        </button>
-    
-        <label for="speed">
-            Speed
-        </label>
+                <div class="control-group buttons">
+                    <button id="generate-button" class="btn btn-secondary">Generate Array</button>
+                    <button id="sort-button" class="btn btn-primary">Sort</button>
+                    <button id="pause-button" class="btn btn-secondary" disabled>Pause</button>
+                    <button id="step-button" class="btn btn-secondary" disabled>Step</button>
+                    <button id="reset-button" class="btn btn-ghost">Reset</button>
+                </div>
 
-                <!-- speed slider -->
-        <input  
-            type="range"
-            id="speed"
-            min="50"
-            max="1000"
-            value="300"
-        > 
-    
+                <div class="control-group speed-group">
+                    <label class="field-label" for="speed">
+                        Delay per step
+                        <output id="speed-value" class="speed-value">300 ms</output>
+                    </label>
+                    <input type="range" id="speed" min="10" max="3500" step="10" value="300">
+                    <div class="speed-hints">
+                        <span>Faster (10 ms)</span>
+                        <span>Slower (3.5 s)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- stats -->
+            <div id="stats">
+                <div class="stat">
+                    <span class="stat-label">Comparisons</span>
+                    <strong id="comparisons" class="stat-value">0</strong>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Swaps / Shifts</span>
+                    <strong id="swaps" class="stat-value">0</strong>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Operation</span>
+                    <span class="stat-value">
+                        <strong id="current-operation">0</strong><span class="stat-divider">/</span><strong id="total-operations">0</strong>
+                    </span>
+                </div>
+            </div>
+
+            <!-- explanation of the current step -->
+            <div class="message-panel">
+                <span class="message-label">What's happening</span>
+                <p id="step-message"></p>
+            </div>
+
+            <!-- the bars -->
+            <div id="array-container"></div>
+
+            <!-- legend -->
+            <div class="legend">
+                <span class="legend-item"><i class="swatch swatch-default"></i>Unsorted</span>
+                <span class="legend-item"><i class="swatch swatch-sorted"></i>Sorted</span>
+                <span class="legend-item"><i class="swatch swatch-comparing"></i>Comparing</span>
+                <span class="legend-item"><i class="swatch swatch-greater"></i>Bigger than key (shifts right)</span>
+                <span class="legend-item"><i class="swatch swatch-done"></i>Key's spot found</span>
+                <span class="legend-item"><i class="swatch swatch-gap"></i>Gap (insertion sort)</span>
+            </div>
+
+        </main>
+
+        <footer class="footer">Built with vanilla JavaScript, HTML and CSS</footer>
     </div>
-
-    <div id="stats">
-
-
-        <!-- stat text+labels -->
-        <span>
-            Comparisons: <strong id="comparisons">0</strong>
-        </span>
-    
-        <span>
-            Swaps: <strong id="swaps">0</strong>
-        </span>
-    
-        <span>
-            Operation:
-            <strong id="current-operation">0</strong>
-            /
-            <strong id="total-operations">0</strong>
-        </span>
-    
-    </div>
-
-
-
-    <div id="array-container"></div>
 
     <script type="module" src="script.js"></script>
 </body>
 </html>
-
-
-
-
-
-
