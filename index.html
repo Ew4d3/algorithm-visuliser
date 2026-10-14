@@ -7,98 +7,137 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="home.css">
 </head>
 <body>
-    <div class="app">
 
-        <header class="header">
-            <div class="title-row">
-                <h1>Algorithm <span class="gradient-text">Visualiser</span></h1>
-                <div class="logo" aria-hidden="true">
-                    <span></span><span></span><span></span><span></span>
-                </div>
-            </div>
-            <p class="subtitle">Watch sorting algorithms work, one step at a time.</p>
-        </header>
+    <!-- top bar -->
+    <header class="topbar">
+        <a class="brand" href="index.html">
+            <span class="logo" aria-hidden="true">
+                <span></span><span></span><span></span><span></span>
+            </span>
+            <span class="brand-name">Algorithm <b>Visualiser</b></span>
+        </a>
 
-        <main class="card">
+        <nav class="auth-buttons">
+            <button id="open-login" class="btn btn-outline">Log in</button>
+            <button id="open-register" class="btn btn-primary">Register</button>
+        </nav>
+    </header>
 
-            <!-- controls -->
-            <div id="controls">
-                <div class="control-group">
-                    <label class="field-label" for="algorithm-select">Algorithm</label>
-                    <select id="algorithm-select">
-                        <option value="bubble">Bubble Sort</option>
-                        <option value="selection">Selection Sort</option>
-                        <option value="insertion">Insertion Sort</option>
-                    </select>
-                </div>
+    <!-- hero -->
+    <main class="hero">
+        <h1>Learn algorithms by <span class="accent">watching them work</span></h1>
+        <p class="lead">Step through each algorithm, follow the code line by line, and compare best and worst cases.</p>
 
-                <div class="control-group buttons">
-                    <button id="generate-button" class="btn btn-secondary">Generate Array</button>
-                    <button id="sort-button" class="btn btn-primary">Sort</button>
-                    <button id="pause-button" class="btn btn-secondary" disabled>Pause</button>
-                    <button id="step-button" class="btn btn-secondary" disabled>Step</button>
-                    <button id="reset-button" class="btn btn-ghost">Reset</button>
-                </div>
+        <div class="tiles">
 
-                <div class="control-group speed-group">
-                    <label class="field-label" for="speed">
-                        Delay per step
-                        <output id="speed-value" class="speed-value">300 ms</output>
-                    </label>
-                    <input type="range" id="speed" min="10" max="3500" step="10" value="300">
-                    <div class="speed-hints">
-                        <span>Faster (10 ms)</span>
-                        <span>Slower (3.5 s)</span>
-                    </div>
-                </div>
-            </div>
+            <a class="tile" href="sorts.html">
+                <svg class="tile-icon" viewBox="0 0 48 48" aria-hidden="true">
+                    <rect x="6"  y="26" width="7" height="16" rx="1.5"/>
+                    <rect x="16" y="14" width="7" height="28" rx="1.5"/>
+                    <rect x="26" y="20" width="7" height="22" rx="1.5"/>
+                    <rect x="36" y="6"  width="7" height="36" rx="1.5"/>
+                </svg>
+                <h2>Sorts</h2>
+                <p>Bubble, selection, insertion, quick, merge and more, with step-by-step code.</p>
+                <span class="tile-cta">Open →</span>
+            </a>
 
-            <!-- stats -->
-            <div id="stats">
-                <div class="stat">
-                    <span class="stat-label">Comparisons</span>
-                    <strong id="comparisons" class="stat-value">0</strong>
-                </div>
-                <div class="stat">
-                    <span class="stat-label">Swaps / Shifts</span>
-                    <strong id="swaps" class="stat-value">0</strong>
-                </div>
-                <div class="stat">
-                    <span class="stat-label">Operation</span>
-                    <span class="stat-value">
-                        <strong id="current-operation">0</strong><span class="stat-divider">/</span><strong id="total-operations">0</strong>
-                    </span>
-                </div>
-            </div>
+            <a class="tile" href="structures.html">
+    <svg class="tile-icon" viewBox="0 0 48 48" aria-hidden="true">
+        <circle cx="24" cy="8"  r="5"/>
+        <circle cx="10" cy="28" r="5"/>
+        <circle cx="38" cy="28" r="5"/>
+        <circle cx="24" cy="42" r="4"/>
+        <path d="M21 12 12 24M27 12l9 12M12 32l9 8M36 32l-9 8" fill="none"/>
+    </svg>
+    <h2>Data Structures</h2>
+    <p>Stacks, queues, arrays, linked lists, hash maps, trees, heaps and graphs.</p>
+    <span class="tile-cta">Open →</span>
+</a>
 
-            <!-- explanation of the current step -->
-            <div class="message-panel">
-                <span class="message-label">What's happening</span>
-                <p id="step-message"></p>
-            </div>
+<a class="tile" href="searches.html">
+    <svg class="tile-icon" viewBox="0 0 48 48" aria-hidden="true">
+        <circle cx="20" cy="20" r="12" fill="none"/>
+        <path d="m29 29 13 13" fill="none"/>
+    </svg>
+    <h2>Searches</h2>
+    <p>Linear and binary search, with the code highlighted as it runs.</p>
+    <span class="tile-cta">Open →</span>
+</a>
 
-            <!-- the bars -->
-            <div id="array-container"></div>
+        </div>
+    </main>
 
-            <!-- legend -->
-            <div class="legend">
-                <span class="legend-item"><i class="swatch swatch-default"></i>Unsorted</span>
-                <span class="legend-item"><i class="swatch swatch-sorted"></i>Sorted</span>
-                <span class="legend-item"><i class="swatch swatch-comparing"></i>Comparing</span>
-                <span class="legend-item"><i class="swatch swatch-greater"></i>Bigger than key (shifts right)</span>
-                <span class="legend-item"><i class="swatch swatch-done"></i>Key's spot found</span>
-                <span class="legend-item"><i class="swatch swatch-gap"></i>Gap (insertion sort)</span>
+    <footer class="footer">Built with vanilla JavaScript, HTML and CSS</footer>
+
+    <!-- login / register dialog -->
+    <dialog id="auth-dialog" aria-labelledby="auth-title">
+        <div class="dialog-body">
+            <button class="close" id="close-dialog" aria-label="Close">×</button>
+
+            <h2 id="auth-title" class="visually-hidden">Account</h2>
+
+            <div class="tabs" role="tablist">
+                <button class="tab" data-mode="login" role="tab">Log in</button>
+                <button class="tab" data-mode="register" role="tab">Register</button>
             </div>
 
-        </main>
+            <!-- login -->
+            <form id="login-form" class="auth-form" novalidate>
+                <label class="field">
+                    <span>Email</span>
+                    <input type="email" name="email" autocomplete="email">
+                    <small class="error"></small>
+                </label>
 
-        <footer class="footer">Built with vanilla JavaScript, HTML and CSS</footer>
-    </div>
+                <label class="field">
+                    <span>Password</span>
+                    <input type="password" name="password" autocomplete="current-password">
+                    <small class="error"></small>
+                </label>
 
-    <script type="module" src="script.js"></script>
+                <p class="form-status" role="status"></p>
+                <button type="submit" class="btn btn-primary wide">Log in</button>
+                <p class="switch">No account? <button type="button" class="link" data-mode="register">Register</button></p>
+            </form>
+
+            <!-- register -->
+            <form id="register-form" class="auth-form" novalidate hidden>
+                <label class="field">
+                    <span>Username</span>
+                    <input type="text" name="username" autocomplete="username">
+                    <small class="error"></small>
+                </label>
+
+                <label class="field">
+                    <span>Email</span>
+                    <input type="email" name="email" autocomplete="email">
+                    <small class="error"></small>
+                </label>
+
+                <label class="field">
+                    <span>Password</span>
+                    <input type="password" name="password" autocomplete="new-password">
+                    <small class="error"></small>
+                </label>
+
+                <label class="field">
+                    <span>Confirm password</span>
+                    <input type="password" name="confirm" autocomplete="new-password">
+                    <small class="error"></small>
+                </label>
+
+                <p class="form-status" role="status"></p>
+                <button type="submit" class="btn btn-primary wide">Create account</button>
+                <p class="switch">Already registered? <button type="button" class="link" data-mode="login">Log in</button></p>
+            </form>
+        </div>
+    </dialog>
+
+    <script src="home.js"></script>
 </body>
 </html>

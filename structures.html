@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Structures | Algorithm Visualiser</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="structures.css">
+</head>
+<body>
+    <div class="app">
+
+        <a class="back-link" href="index.html">← Home</a>
+
+        <header class="header">
+            <div class="title-row">
+                <h1>Data <span class="accent">Structures</span></h1>
+                <div class="logo" aria-hidden="true">
+                    <span></span><span></span><span></span><span></span>
+                </div>
+            </div>
+            <p class="subtitle">Add, remove and search, and watch the structure change.</p>
+        </header>
+
+        <main class="stack">
+
+            <section class="panel" id="controls">
+                <div class="control-group">
+                    <label class="field-label" for="structure-select">Structure</label>
+                    <select id="structure-select">
+                        <option value="stack">Stack</option>
+                        <option value="queue">Queue</option>
+                        <option value="array">Array</option>
+                        <option value="linkedlist">Linked List</option>
+                        <option value="hashmap">Hash Map</option>
+                        <option value="tree">Binary Search Tree</option>
+                        <option value="heap">Heap</option>
+                        <option value="graph">Graph</option>
+                    </select>
+                </div>
+
+                <div class="control-group grow">
+                    <span class="field-label">Operations</span>
+                    <div id="ops" class="op-bar"></div>
+                </div>
+
+                <div class="control-group speed-group">
+                    <label class="field-label" for="speed">
+                        Delay per step
+                        <output id="speed-value" class="speed-value">500 ms</output>
+                    </label>
+                    <input type="range" id="speed" min="50" max="3500" step="50" value="500">
+                    <div class="speed-hints">
+                        <span>Faster (50 ms)</span>
+                        <span>Slower (3.5 s)</span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="panel">
+                <div class="algo-head">
+                    <h2 id="s-name"></h2>
+                    <div class="complexity" id="s-complexity"></div>
+                </div>
+                <p id="s-blurb" class="blurb"></p>
+
+                <div class="message-panel">
+                    <span class="message-label">What's happening</span>
+                    <p id="step-message"></p>
+                </div>
+
+                <div id="stage" class="stage"></div>
+                <div id="info" class="info"></div>
+            </section>
+
+        </main>
+
+        <footer class="footer">Built with vanilla JavaScript, HTML and CSS</footer>
+    </div>
+
+    <script type="module" src="structures.js"></script>
+</body>
+</html>

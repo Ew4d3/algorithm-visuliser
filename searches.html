@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Searches | Algorithm Visualiser</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="searches.css">
+</head>
+<body>
+    <div class="app">
+
+        <a class="back-link" href="index.html">← Home</a>
+
+        <header class="header">
+            <div class="title-row">
+                <h1>Search <span class="accent">Algorithms</span></h1>
+                <div class="logo" aria-hidden="true">
+                    <span></span><span></span><span></span><span></span>
+                </div>
+            </div>
+            <p class="subtitle">See how many checks it takes to find a value.</p>
+        </header>
+
+        <main class="stack">
+
+            <section class="panel" id="controls">
+                <div class="control-group">
+                    <label class="field-label" for="algorithm-select">Algorithm</label>
+                    <select id="algorithm-select">
+                        <option value="linear">Linear Search</option>
+                        <option value="binary">Binary Search</option>
+                    </select>
+                </div>
+
+                <div class="control-group">
+                    <label class="field-label" for="target">Target</label>
+                    <input id="target" class="op-input" type="text" maxlength="2"
+                           placeholder="0-99" autocomplete="off">
+                </div>
+
+                <div class="control-group buttons">
+                    <button id="generate-button" class="btn btn-secondary">Generate Array</button>
+                    <button id="best-button" class="btn btn-outline">Best Case</button>
+                    <button id="worst-button" class="btn btn-outline">Worst Case</button>
+                    <button id="search-button" class="btn btn-primary">Search</button>
+                    <button id="pause-button" class="btn btn-secondary" disabled>Pause</button>
+                    <button id="step-button" class="btn btn-secondary" disabled>Step</button>
+                    <button id="reset-button" class="btn btn-ghost">Reset</button>
+                </div>
+
+                <div class="control-group speed-group">
+                    <label class="field-label" for="speed">
+                        Delay per step
+                        <output id="speed-value" class="speed-value">600 ms</output>
+                    </label>
+                    <input type="range" id="speed" min="50" max="3500" step="50" value="600">
+                    <div class="speed-hints">
+                        <span>Faster (50 ms)</span>
+                        <span>Slower (3.5 s)</span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="panel">
+                <div class="algo-head">
+                    <h2 id="algo-name">Linear Search</h2>
+                    <div class="complexity">
+                        <div class="cx-group">
+                            <span class="cx-label">Time</span>
+                            <span class="chip"><i>Best</i><b id="time-best">O(1)</b></span>
+                            <span class="chip"><i>Avg</i><b id="time-avg">O(n)</b></span>
+                            <span class="chip"><i>Worst</i><b id="time-worst">O(n)</b></span>
+                        </div>
+                        <div class="cx-group">
+                            <span class="cx-label">Space</span>
+                            <span class="chip"><b id="space-value">O(1)</b></span>
+                        </div>
+                    </div>
+                </div>
+
+                <p id="algo-note" class="note"></p>
+                <span id="case-tag" class="case-tag" hidden></span>
+
+                <div id="stats">
+                    <div class="stat">
+                        <span class="stat-label">Comparisons</span>
+                        <strong id="comparisons">0</strong>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Step</span>
+                        <span class="stat-value">
+                            <strong id="current-operation">0</strong><span class="stat-divider">/</span><strong id="total-operations">0</strong>
+                        </span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label" id="max-label">Most checks possible</span>
+                        <strong id="max-checks">0</strong>
+                    </div>
+                </div>
+
+                <div class="message-panel">
+                    <span class="message-label">What's happening</span>
+                    <p id="step-message"></p>
+                </div>
+
+                <div id="search-container"></div>
+
+                <div class="legend">
+                    <span class="legend-item"><i class="swatch swatch-default"></i>Still possible</span>
+                    <span class="legend-item"><i class="swatch swatch-comparing"></i>Being checked</span>
+                    <span class="legend-item"><i class="swatch swatch-sorted"></i>Found</span>
+                    <span class="legend-item"><i class="swatch swatch-dim"></i>Ruled out</span>
+                    <span class="legend-item"><i class="legend-ptr">L M H</i>Low, middle, high pointers</span>
+                </div>
+            </section>
+
+            <section class="panel code-panel">
+                <div class="panel-head">
+                    <span class="panel-title">Code</span>
+                    <span class="panel-note">JavaScript</span>
+                </div>
+                <div id="code-view" class="code-view"></div>
+            </section>
+
+        </main>
+
+        <footer class="footer">Built with vanilla JavaScript, HTML and CSS</footer>
+    </div>
+
+    <script type="module" src="searches.js"></script>
+</body>
+</html>

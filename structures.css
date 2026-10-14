@@ -1,0 +1,387 @@
+.blurb {
+    margin: 12px 0 0;
+    color: var(--muted);
+    line-height: 1.55;
+}
+
+.grow {
+    flex: 1;
+    min-width: 280px;
+}
+
+/* ---------- operation controls ---------- */
+.op-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+}
+
+.op-input {
+    width: 120px;
+    padding: 10px 12px;
+    font: inherit;
+    color: var(--text);
+    background: var(--panel-2);
+    border: 1px solid var(--border-soft);
+    border-radius: 8px;
+    transition: border-color 0.2s;
+}
+
+.op-input:focus {
+    outline: none;
+    border-color: var(--cyan);
+}
+
+select.op-input {
+    width: auto;
+    min-width: 130px;
+}
+
+.message-panel {
+    margin-top: 16px;
+}
+
+#step-message:empty::before {
+    content: "Choose an operation to begin.";
+}
+
+/* ---------- stage ---------- */
+.stage {
+    display: flex;
+    min-height: 380px;
+    padding: 30px 16px;
+    background: #000;
+    border: 1px solid var(--border-soft);
+    border-radius: 8px;
+    overflow: auto;
+}
+
+/* margin:auto centres the content but still lets wide content scroll */
+.stage > * {
+    margin: auto;
+}
+
+.info {
+    margin-top: 12px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.82rem;
+    color: var(--muted);
+    white-space: pre-line;
+}
+
+.empty-note {
+    color: var(--muted);
+    font-style: italic;
+}
+
+/* ---------- cells (stack, queue, array) ---------- */
+.cell {
+    position: relative;
+    display: grid;
+    place-items: center;
+    min-width: 56px;
+    height: 46px;
+    padding: 0 12px;
+    font-family: "JetBrains Mono", monospace;
+    font-weight: 600;
+    background: var(--panel-2);
+    border: 1px solid var(--cyan-dim);
+    border-radius: 6px;
+    transition: background 0.2s, border-color 0.2s, color 0.2s, box-shadow 0.2s;
+}
+
+.cell.empty {
+    background: transparent;
+    border: 1px dashed var(--border-soft);
+}
+
+/* shared highlight states */
+:is(.cell, .ll-node).visit {
+    border-color: #fff;
+    box-shadow: 0 0 12px rgba(255, 255, 255, 0.45);
+}
+
+:is(.cell, .ll-node).found {
+    background: var(--cyan);
+    border-color: var(--cyan);
+    color: #000;
+    box-shadow: 0 0 16px rgba(0, 229, 255, 0.5);
+}
+
+:is(.cell, .ll-node).done {
+    background: rgba(0, 229, 255, 0.14);
+    border-color: var(--cyan);
+}
+
+:is(.cell, .ll-node).miss {
+    background: rgba(255, 92, 122, 0.14);
+    border-color: var(--red);
+    color: var(--red);
+}
+
+:is(.cell, .ll-node).swap {
+    border-color: var(--amber);
+    color: var(--amber);
+}
+
+:is(.cell, .ll-node).new {
+    animation: pop 0.35s ease;
+}
+
+:is(.cell, .ll-node).out {
+    animation: fadeout 0.4s ease forwards;
+}
+
+.bucket.visit {
+    border-color: #fff;
+}
+
+@keyframes pop {
+    from { transform: scale(0.6); opacity: 0; }
+    to   { transform: scale(1);   opacity: 1; }
+}
+
+@keyframes fadeout {
+    to { transform: translateY(-14px); opacity: 0; }
+}
+
+/* labels hanging off a cell */
+.tag {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--cyan);
+    white-space: nowrap;
+}
+
+.tag.up   { top: -20px; }
+.tag.down { bottom: -20px; }
+
+/* ---------- stack ---------- */
+.v-stack {
+    display: flex;
+    flex-direction: column-reverse;   /* first item sits at the bottom */
+    gap: 6px;
+    width: 170px;
+    min-height: 60px;
+    padding-top: 10px;
+    border-bottom: 3px solid var(--cyan);
+}
+
+.v-stack .cell {
+    width: 100%;
+}
+
+.v-stack .cell.top::after {
+    content: "← TOP";
+    position: absolute;
+    left: calc(100% + 12px);
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.75rem;
+    color: var(--cyan);
+    white-space: nowrap;
+}
+
+/* ---------- queue ---------- */
+.q-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 34px 0;
+}
+
+.q-end {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--muted);
+    white-space: nowrap;
+}
+
+/* ---------- array / heap strip ---------- */
+.arr-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+}
+
+.arr-cell {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+.idx {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.75rem;
+    color: var(--muted);
+}
+
+/* ---------- linked list + hash map nodes ---------- */
+.ll-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 30px 10px;
+}
+
+.ll-node {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    font-family: "JetBrains Mono", monospace;
+    font-weight: 600;
+    background: var(--panel-2);
+    border: 1px solid var(--cyan-dim);
+    border-radius: 6px;
+    transition: background 0.2s, border-color 0.2s, color 0.2s, box-shadow 0.2s;
+}
+
+.ll-val {
+    padding: 12px 14px;
+}
+
+.ll-ptr {
+    align-self: stretch;
+    display: grid;
+    place-items: center;
+    width: 24px;
+    border-left: 1px solid var(--cyan-dim);
+}
+
+.ll-ptr::before {
+    content: "•";
+    color: var(--cyan);
+}
+
+.ll-arrow {
+    color: var(--cyan);
+}
+
+.ll-null {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.85rem;
+    color: var(--muted);
+}
+
+/* ---------- hash map ---------- */
+.buckets {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: min(640px, 100%);
+}
+
+.bucket {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 6px 10px;
+    border: 1px solid var(--border-soft);
+    border-radius: 8px;
+    transition: border-color 0.2s;
+}
+
+.b-idx {
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    font-family: "JetBrains Mono", monospace;
+    color: var(--cyan);
+    border: 1px solid var(--cyan);
+    border-radius: 6px;
+}
+
+.b-chain {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+}
+
+.b-empty {
+    font-size: 0.8rem;
+    color: var(--muted);
+}
+
+.ll-node.kv .ll-val {
+    padding: 8px 10px;
+}
+
+.kv-sep {
+    color: var(--muted);
+}
+
+/* ---------- svg (tree, heap, graph) ---------- */
+.svg-wrap svg {
+    display: block;
+    margin: 0 auto;
+}
+
+.svg-wrap .arr-row {
+    margin-top: 22px;
+}
+
+.graph-svg {
+    width: min(440px, 100%);
+    height: auto;
+}
+
+.edge {
+    stroke: var(--cyan-dim);
+    stroke-width: 2;
+    transition: stroke 0.2s;
+}
+
+.edge.used {
+    stroke: var(--cyan);
+    stroke-width: 3.5;
+}
+
+.vnode circle {
+    fill: #000;
+    stroke: var(--cyan-dim);
+    stroke-width: 2;
+    transition: fill 0.2s, stroke 0.2s;
+}
+
+.vnode text {
+    fill: var(--text);
+    font-family: "JetBrains Mono", monospace;
+    font-size: 14px;
+    font-weight: 600;
+    text-anchor: middle;
+}
+
+.vnode.visit circle  { stroke: #fff; fill: #1a1a1a; }
+.vnode.found circle  { stroke: var(--cyan); fill: var(--cyan); }
+.vnode.found text    { fill: #000; }
+.vnode.done circle   { stroke: var(--cyan); fill: rgba(0, 229, 255, 0.16); }
+.vnode.miss circle   { stroke: var(--red); fill: rgba(255, 92, 122, 0.16); }
+.vnode.swap circle   { stroke: var(--amber); }
+.vnode.queued circle { stroke: var(--purple); }
+
+.vnode.new circle {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: pop 0.35s ease;
+}
+
+@media (max-width: 720px) {
+    .op-input {
+        flex: 1;
+        min-width: 90px;
+    }
+}

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Algorithm Visualiser</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app">
+        <a class="back-link" href="index.html">← Home</a>
+
+        <header class="header">
+            <div class="title-row">
+                <h1>Algorithm <span class="accent">Visualiser</span></h1>
+                <div class="logo" aria-hidden="true">
+                    <span></span><span></span><span></span><span></span>
+                </div>
+            </div>
+            <p class="subtitle">Watch sorting algorithms work, one step at a time.</p>
+        </header>
+
+        <main class="stack">
+
+            <!-- controls -->
+            <section class="panel" id="controls">
+                <div class="control-group">
+                    <label class="field-label" for="algorithm-select">Algorithm</label>
+                    <select id="algorithm-select">
+                        <option value="bubble">Bubble Sort</option>
+                        <option value="selection">Selection Sort</option>
+                        <option value="insertion">Insertion Sort</option>
+                        <option value="quick">Quick Sort</option>
+                        <option value="merge">Merge Sort</option>
+                        <option value="bogo">Bogo Sort (5 bars)</option>
+                        <option value="rot">Rot Sort</option>
+                    </select>
+                </div>
+
+                <div class="control-group buttons">
+                    <button id="generate-button" class="btn btn-secondary">Generate Array</button>
+                    <button id="best-button" class="btn btn-outline">Best Case</button>
+                    <button id="worst-button" class="btn btn-outline">Worst Case</button>
+                    <button id="sort-button" class="btn btn-primary">Sort</button>
+                    <button id="pause-button" class="btn btn-secondary" disabled>Pause</button>
+                    <button id="step-button" class="btn btn-secondary" disabled>Step</button>
+                    <button id="reset-button" class="btn btn-ghost">Reset</button>
+                </div>
+
+                <div class="control-group speed-group">
+                    <label class="field-label" for="speed">
+                        Delay per step
+                        <output id="speed-value" class="speed-value">300 ms</output>
+                    </label>
+                    <input type="range" id="speed" min="50" max="3500" step="50" value="300">
+                    <div class="speed-hints">
+                        <span>Faster (50 ms)</span>
+                        <span>Slower (3.5 s)</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- visualiser -->
+            <section class="panel">
+
+                <div class="algo-head">
+                    <h2 id="algo-name">Bubble Sort</h2>
+
+                    <div class="complexity">
+                        <div class="cx-group">
+                            <span class="cx-label">Time</span>
+                            <span class="chip"><i>Best</i><b id="time-best">O(n)</b></span>
+                            <span class="chip"><i>Avg</i><b id="time-avg">O(n²)</b></span>
+                            <span class="chip"><i>Worst</i><b id="time-worst">O(n²)</b></span>
+                        </div>
+                        <div class="cx-group">
+                            <span class="cx-label">Space</span>
+                            <span class="chip"><b id="space-value">O(1)</b></span>
+                        </div>
+                    </div>
+                </div>
+
+                <span id="case-tag" class="case-tag" hidden></span>
+
+                <div id="stats">
+                    <div class="stat">
+                        <span class="stat-label">Comparisons</span>
+                        <strong id="comparisons">0</strong>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Swaps / Writes</span>
+                        <strong id="swaps">0</strong>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Operation</span>
+                        <span class="stat-value">
+                            <strong id="current-operation">0</strong><span class="stat-divider">/</span><strong id="total-operations">0</strong>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="message-panel">
+                    <span class="message-label">What's happening</span>
+                    <p id="step-message"></p>
+                </div>
+
+                <div id="array-container"></div>
+
+                <div class="legend" id="legend"></div>
+            </section>
+
+            <!-- code -->
+            <section class="panel code-panel">
+                <div class="panel-head">
+                    <span class="panel-title">Code</span>
+                    <span class="panel-note">JavaScript</span>
+                </div>
+                <div id="code-view" class="code-view"></div>
+            </section>
+
+        </main>
+
+        <footer class="footer">Built with vanilla JavaScript, HTML and CSS</footer>
+    </div>
+
+    <script type="module" src="script.js"></script>
+</body>
+</html>

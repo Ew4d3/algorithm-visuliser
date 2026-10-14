@@ -11,12 +11,12 @@ export function quickSort(array) {
             return;
         }
 
-        // One bar left: it's automatically in the right place.
         if (lo === hi) {
             operations.push({
                 type: "place",
                 index: lo,
                 from: lo,
+                single: true,   // <-- add this line
                 message: `Only one bar (${arr[lo]}) left here, so it's already in its final spot.`
             });
             return;
