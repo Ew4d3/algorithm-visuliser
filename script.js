@@ -1,4 +1,4 @@
-import { bubbleSort } from "algorithms/bubbleSort.js";
+import { bubbleSort } from "./algorithms/bubbleSort.js";
 import { selectionSort } from "./algorithms/selectionSort.js";
 import { insertionSort } from "./algorithms/insertionSort.js";
 import { quickSort } from "./algorithms/quickSort.js";
