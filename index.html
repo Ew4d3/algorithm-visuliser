@@ -13,7 +13,7 @@
 <body>
 
 
-    
+
 
     <!-- top bar -->
     <header class="topbar">
@@ -74,6 +74,75 @@
 
         </div>
     </main>
+
+    <section class="bigo" id="big-o">
+    <div class="bigo-inner">
+
+        <h2 class="section-title">Big-O <span class="accent">cheat sheet</span></h2>
+        <p class="section-lead">
+            How the cost of each algorithm and data structure grows as the input gets bigger.
+            <b>n</b> is the number of items.
+        </p>
+
+        <!-- colour key -->
+        <div class="rating-key">
+            <span class="cx cx-great">Excellent: O(1), O(log n)</span>
+            <span class="cx cx-good">Good: O(n)</span>
+            <span class="cx cx-fair">Fair: O(n log n)</span>
+            <span class="cx cx-bad">Bad: O(n²)</span>
+            <span class="cx cx-awful">Terrible: O(2ⁿ), O(n!)</span>
+        </div>
+
+        <!-- table -->
+        <div class="bigo-tabs" role="tablist" aria-label="Cheat sheet category">
+            <button class="bigo-tab active" data-table="sorting" role="tab" aria-selected="true">Sorting</button>
+            <button class="bigo-tab" data-table="searching" role="tab" aria-selected="false">Searching</button>
+            <button class="bigo-tab" data-table="structures" role="tab" aria-selected="false">Data structures</button>
+        </div>
+
+        <div class="table-wrap">
+            <table id="bigo-table"></table>
+        </div>
+        <p id="bigo-note" class="bigo-note"></p>
+
+        <!-- graph 1: growth curves -->
+        <h3 class="graph-title">How fast does each one grow?</h3>
+        <div class="graph-card">
+            <div class="graph-controls">
+                <div id="growth-legend" class="curve-legend"></div>
+                <label class="n-control" for="n-slider">
+                    Max n: <b id="n-value">10</b>
+                    <input type="range" id="n-slider" min="5" max="30" value="10">
+                </label>
+            </div>
+            <svg id="growth-chart" class="growth-chart" role="img"
+                 aria-label="Line chart comparing how the number of operations grows with n for common complexities"></svg>
+            <p class="bigo-note">Curves that shoot off the top of the chart are already too slow to be practical at that size.</p>
+        </div>
+
+        <!-- graph 2: steps for n items -->
+        <h3 class="graph-title">How many steps for n items?</h3>
+        <div class="graph-card">
+            <div class="size-row">
+                <span class="size-label">Input size n =</span>
+                <div id="size-picker" class="size-picker" role="group" aria-label="Input size"></div>
+            </div>
+
+            <div class="bar-head">
+                <span>Complexity</span>
+                <span>Steps (log scale)</span>
+                <span class="right">Steps</span>
+                <span class="right">Time at 1 billion steps/s</span>
+            </div>
+            <div id="bars"></div>
+
+            <p class="bigo-note">
+                Bar lengths use a logarithmic scale, so each notch is 10× more. A ▶ means the bar runs off the chart.
+            </p>
+        </div>
+
+    </div>
+</section>
 
     <footer class="footer">Built with vanilla JavaScript, HTML and CSS</footer>
 
@@ -142,5 +211,8 @@
     </dialog>
 
     <script src="home.js"></script>
+
+    <script src="home.js"></script>
+    <script src="bigo.js"></script>
 </body>
 </html>
