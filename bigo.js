@@ -237,11 +237,11 @@
     nSlider.addEventListener("input", drawGrowth);
 
     
-    // 3. STEPS FOR n ITEMS (log-scale bars)
+    //3 - STEPS FOR n ITEMS (log-scale bars)
 
     const SIZES = [10, 100, 1000, 10000];
     const OPS_PER_SECOND = 1e9;
-    const BAR_CAP = 12;   // bars run up to 10^12 steps; anything bigger is "off the chart"
+    const BAR_CAP = 12;   //bars run up to 10^12 steps; anything bigger is "off the chart"
 
     const SUP = { 0: "⁰", 1: "¹", 2: "²", 3: "³", 4: "⁴", 5: "⁵", 6: "⁶", 7: "⁷", 8: "⁸", 9: "⁹" };
     const sup = num => String(num).split("").map(d => SUP[d] ?? d).join("");
@@ -264,9 +264,9 @@
         return `${text} ${unit}`;
     }
 
-    // l = log10(number of steps)
+    //l = log10(number of steps)
     function timeText(l) {
-        const s = l - Math.log10(OPS_PER_SECOND);   // log10 of seconds
+        const s = l - Math.log10(OPS_PER_SECOND);   //log10 of seconds
         const seconds = Math.pow(10, s);
 
         if (s < -6) return "under 1 µs";
@@ -277,7 +277,7 @@
         if (s < Math.log10(86400)) return fmtUnit(seconds / 3600, "hours");
         if (s < Math.log10(31557600)) return fmtUnit(seconds / 86400, "days");
 
-        const years = s - Math.log10(31557600);   // log10 of years
+        const years = s - Math.log10(31557600);   //log10 of years
         if (years > Math.log10(1.38e10)) return "longer than the age of the universe";
         if (years < 6) return `${Math.round(Math.pow(10, years)).toLocaleString()} years`;
         return `${sci(years)} years`;
@@ -312,9 +312,8 @@
         drawBars(Number(button.dataset.n));
     });
 
-    // ===================================================================
+    
     // start up
-    // ===================================================================
     renderTable("sorting");
     drawGrowth();
     drawBars(100);
