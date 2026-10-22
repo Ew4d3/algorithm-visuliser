@@ -1,3 +1,4 @@
+//imports of all files - linked so can access
 import { bubbleSort } from "./algorithms/bubbleSort.js";
 import { selectionSort } from "./algorithms/selectionSort.js";
 import { insertionSort } from "./algorithms/insertionSort.js";
@@ -7,14 +8,9 @@ import { bogoSort } from "./algorithms/bogoSort.js";
 import { ROT_TOTAL_SECONDS, rotMessage } from "./algorithms/rotSort.js";
 import { executeOperation } from "./visualizer.js";
 import { algorithmInfo, legendItems } from "./algorithmInfo.js";
-import {
-    renderCode,
-    highlightLine,
-    clearHighlight,
-    lineForOperation
-} from "./codeView.js";
+import {renderCode,highlightLine,clearHighlight,lineForOperation} from "./codeView.js";
 
-// ---------- elements ----------
+// js button elements
 const generateButton = document.getElementById("generate-button");
 const bestButton = document.getElementById("best-button");
 const worstButton = document.getElementById("worst-button");
@@ -39,7 +35,7 @@ const spaceValue = document.getElementById("space-value");
 const legendEl = document.getElementById("legend");
 const caseTag = document.getElementById("case-tag");
 
-// ---------- algorithm settings ----------
+//alg settings
 const algorithms = {
     bubble: bubbleSort,
     selection: selectionSort,
@@ -49,7 +45,7 @@ const algorithms = {
     bogo: bogoSort
 };
 
-// default slider value (delay in ms) for each algorithm: bigger = slower
+//default slider val (delay in ms) for each alg: bigger = slower
 const defaultDelay = {
     bubble: 300,
     selection: 300,
@@ -60,13 +56,13 @@ const defaultDelay = {
     rot: 300
 };
 
-// number of bars per algorithm (everything else uses DEFAULT_SIZE)
+//num of bars per alg (everything else uses DEFAULT_SIZE)
 const DEFAULT_SIZE = 30;
 const arraySizes = {
     bogo: 5
 };
 
-// ---------- state ----------
+//states
 let array = [];
 let isSorting = false;
 let isPaused = false;
@@ -76,9 +72,9 @@ let stepRequested = false;
 let pauseResolver = null;
 let comparisons = 0;
 let swaps = 0;
-let runId = 0;   // identifies the current sort run so reset can cancel it
+let runId = 0;   //identifies the current sort run so reset can cancel it
 
-// ---------- listeners ----------
+//listeners for buttons and select
 generateButton.addEventListener("click", generateArray);
 bestButton.addEventListener("click", () => runCase("best"));
 worstButton.addEventListener("click", () => runCase("worst"));
@@ -87,7 +83,7 @@ pauseButton.addEventListener("click", togglePause);
 stepButton.addEventListener("click", step);
 resetButton.addEventListener("click", reset);
 
-// changing algorithm updates the info + code, and gives a fresh array
+//changing alg updates the info + code, and gives fresh arr
 algorithmSelect.addEventListener("change", () => {
     applyDefaultSpeed();
     showAlgorithmInfo();
@@ -98,7 +94,7 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-// ---------- UI helpers ----------
+//ui
 function showAlgorithmInfo() {
     const key = algorithmSelect.value;
     const info = algorithmInfo[key];
@@ -116,7 +112,7 @@ function showAlgorithmInfo() {
     renderCode(key);
 }
 
-// one place that decides which controls are usable
+//one place that decides which controls are usable
 function setBusy(busy) {
     const hasCases = Boolean(algorithmInfo[algorithmSelect.value].cases);
 
@@ -135,7 +131,7 @@ function showCaseTag(kind, label) {
     caseTag.hidden = false;
 }
 
-// ---------- speed slider ----------
+//speed slider
 function updateSpeedLabel() {
     const ms = Number(speedSlider.value);
     speedValue.textContent = ms >= 1000
@@ -147,11 +143,11 @@ speedSlider.addEventListener("input", updateSpeedLabel);
 
 function applyDefaultSpeed() {
     speedSlider.value = defaultDelay[algorithmSelect.value] ?? 300;
-    speedSlider.disabled = algorithmSelect.value === "rot";   // rot sort ignores speed
+    speedSlider.disabled = algorithmSelect.value === "rot";   //rot sort ignores speed
     updateSpeedLabel();
 }
 
-// ---------- controls ----------
+//all contoles
 function togglePause() {
     isPaused = !isPaused;
     if (isPaused) {
@@ -177,12 +173,12 @@ function step() {
 }
 
 function reset() {
-    runId++;                 // cancels any sort that is running or paused
-    isSorting = false;       // lets generateArray() run again
+    runId++;        //cancels any sort that is running or paused
+    isSorting = false;      //lets generateArray() run again
     isPaused = false;
     stepRequested = false;
 
-    // release the paused loop so it can see it was cancelled and exit
+    //release the paused loop so it can see it was cancelled and exit
     if (pauseResolver) {
         pauseResolver();
         pauseResolver = null;
@@ -205,7 +201,7 @@ function reset() {
     generateArray();
 }
 
-// ---------- array ----------
+// arr
 function generateArray() {
     if (isSorting) {
         return;
@@ -218,13 +214,13 @@ function generateArray() {
         array.push(value);
     }
 
-    caseTag.hidden = true;   // back to a random array
+    caseTag.hidden = true;   //back to a random array
     renderArray();
 }
 
 function renderArray() {
     arrayContainer.innerHTML = "";
-    // small arrays show the value above each bar
+    //small arrays show the value above each bar
     arrayContainer.classList.toggle("labelled", array.length <= 10);
 
     for (let i = 0; i < array.length; i++) {
@@ -236,7 +232,7 @@ function renderArray() {
     }
 }
 
-// load the best / worst case input for the chosen algorithm and sort it
+//load the best / worst case input for the chosen algorithm and sort it
 function runCase(kind) {
     if (isSorting) {
         return;
@@ -255,7 +251,7 @@ function runCase(kind) {
     startSorting();
 }
 
-// ---------- sorting ----------
+// sortin
 async function startSorting() {
     if (isSorting) {
         return;
@@ -266,7 +262,7 @@ async function startSorting() {
     currentOperationIndex = 0;
     comparisons = 0;
     swaps = 0;
-    const myRun = ++runId;   // this run's ID
+    const myRun = ++runId;   //this run ID
 
     comparisonsDisplay.textContent = "0";
     swapsDisplay.textContent = "0";
@@ -285,7 +281,7 @@ async function startSorting() {
         await runAnimation(myRun);
     }
 
-    // if reset happened, it already cleaned up, so don't touch anything
+    //if reset happened , it alr cleaned up , so don't touch nun
     if (myRun !== runId) {
         return;
     }
@@ -318,7 +314,7 @@ async function runAnimation(myRun) {
             await waitForResume();
         }
 
-        // reset may have happened while we were paused
+        //in case of reset may have happened while paused
         if (myRun !== runId) {
             return;
         }
@@ -339,7 +335,7 @@ async function runAnimation(myRun) {
 
         await executeOperation(operation, array, arrayContainer, speedSlider);
 
-        // reset may have happened during the animation step
+        //in case of reset may have happened during the animation step
         if (myRun !== runId) {
             return;
         }
@@ -351,7 +347,7 @@ async function runAnimation(myRun) {
     }
 }
 
-// rot sort: a real-time one-year countdown that sorts absolutely nothing
+//rot sort - a real-time one-year countdown that sorts absolutely nothing
 async function runRotSort(myRun) {
     totalOperationsDisplay.textContent = ROT_TOTAL_SECONDS.toLocaleString();
 
@@ -389,7 +385,7 @@ function waitForResume() {
     });
 }
 
-// ---------- start up ----------
+// start
 applyDefaultSpeed();
 showAlgorithmInfo();
 setBusy(false);
