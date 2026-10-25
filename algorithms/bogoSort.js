@@ -18,6 +18,9 @@ function shuffled(values) {
     return copy;
 }
 
+
+
+
 export function bogoSort(array) {
     const operations = [];
     let arr = [...array];
