@@ -1,4 +1,4 @@
 Algorithm Visuliser First Full Stack Project.
 
 
-this is and will be my first in-depth personal project, which i am very excited to have started.
+This is and will be my first in-depth personal project, which I am very excited to have started. It utilises vanilla HTML, CSS , and javascript so far, as i have not started the backend. 
