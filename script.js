@@ -1,3 +1,5 @@
+
+console.log("MY SCRIPT.JS IS RUNNING");
 //imports of all files - linked so can access
 import { bubbleSort } from "./algorithms/bubbleSort.js";
 import { selectionSort } from "./algorithms/selectionSort.js";
@@ -390,3 +392,29 @@ applyDefaultSpeed();
 showAlgorithmInfo();
 setBusy(false);
 generateArray();
+
+
+
+async function testBackendConnection() {
+try {
+const response = await fetch("http://localhost:3000/api/test", {
+method: "POST",
+headers: {
+"Content-Type": "application/json"
+},
+body: JSON.stringify({
+message: "Hello from my Algorithm Visualiser!"
+})
+});
+
+    const data = await response.json();
+
+    console.log("Backend response:", data);
+
+} catch (error) {
+    console.error("Connection failed:", error);
+}
+
+}
+
+testBackendConnection();
