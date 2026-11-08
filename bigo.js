@@ -182,7 +182,7 @@
         const muted = "#6f8f96";
         const font = `font-family="JetBrains Mono, monospace" font-size="11"`;
 
-        // y grid + labels
+        //y grid+labels
         let grid = "";
         for (let k = 0; k <= 5; k++) {
             const value = (yMax * k) / 5;
@@ -192,7 +192,7 @@
                 `<text x="${m.l - 8}" y="${y}" dy="0.35em" text-anchor="end" fill="${muted}" ${font}>${Math.round(value)}</text>`;
         }
 
-        // x grid + labels
+        //x grid+labels
         const step = Math.ceil(N / 8);
         const ticks = [1];
         for (let t = step; t <= N; t += step) {
@@ -211,7 +211,7 @@
             `<text x="${m.l + pw / 2}" y="${H - 6}" text-anchor="middle" fill="${muted}" ${font}>n (number of items)</text>` +
             `<text transform="rotate(-90)" x="${-(m.t + ph / 2)}" y="14" text-anchor="middle" fill="${muted}" ${font}>operations</text>`;
 
-        // curves
+        //curves
         const paths = CURVES.filter(c => visible.has(c.id)).map(c => {
             let d = "";
             for (let i = 0; i <= STEPS; i++) {
@@ -236,9 +236,9 @@
 
     nSlider.addEventListener("input", drawGrowth);
 
-    // ===================================================================
+    
     // 3. STEPS FOR n ITEMS (log-scale bars)
-    // ===================================================================
+
     const SIZES = [10, 100, 1000, 10000];
     const OPS_PER_SECOND = 1e9;
     const BAR_CAP = 12;   // bars run up to 10^12 steps; anything bigger is "off the chart"
