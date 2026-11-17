@@ -19,6 +19,10 @@ function markSorted(bars, end) {
 
 
 
+
+
+
+
 export async function executeOperation(
     operation,
     array,
