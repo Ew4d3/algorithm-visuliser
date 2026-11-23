@@ -311,7 +311,6 @@
         picker.querySelectorAll(".size-btn").forEach(b => b.classList.toggle("active", b === button));
         drawBars(Number(button.dataset.n));
     });
-
     
     // start up
     renderTable("sorting");
