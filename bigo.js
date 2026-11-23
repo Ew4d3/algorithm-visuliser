@@ -317,4 +317,6 @@
     renderTable("sorting");
     drawGrowth();
     drawBars(100);
-})();
+}
+)
+();
